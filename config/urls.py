@@ -25,4 +25,8 @@ urlpatterns = [
         "api/v1/auth/",
         include("accounts.urls"),
     ),
+    path(
+        "api/v1/diet/",
+        include("diet.urls"),
+    ),
 ]
