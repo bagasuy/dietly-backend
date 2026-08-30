@@ -29,4 +29,8 @@ urlpatterns = [
         "api/v1/diet/",
         include("diet.urls"),
     ),
+    path(
+        "api/v1/prediction/",
+        include("prediction.urls"),
+    ),
 ]
