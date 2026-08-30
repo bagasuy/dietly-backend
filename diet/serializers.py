@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import DietEntry
+from .models import DietEntry, WeightHistory
 
 
 class DietEntrySerializer(serializers.ModelSerializer):
@@ -25,4 +25,20 @@ class DietEntrySerializer(serializers.ModelSerializer):
             "user",
             "created_at",
         )
-        
+class WeightHistorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = WeightHistory
+        fields = (
+            "id",
+            "user",
+            "weight",
+            "recorded_at",
+            "created_at",
+        )
+
+        read_only_fields = (
+            "id",
+            "user",
+            "created_at",
+        )

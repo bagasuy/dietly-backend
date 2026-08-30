@@ -1,6 +1,10 @@
 from django.urls import path
 
-from .views import DietDetailView, DietListCreateView
+from .views import (
+    DietDetailView, 
+    DietListCreateView,
+    WeightHistoryListCreateView,
+)
 
 
 urlpatterns = [
@@ -8,6 +12,12 @@ urlpatterns = [
         "",
         DietListCreateView.as_view(),
         name="diet-list-create",
+    ),
+
+ path(
+        "weight/",
+        WeightHistoryListCreateView.as_view(),
+        name="weight-list-create",
     ),
 
     path(
