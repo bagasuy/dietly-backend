@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import (
-    DietDetailView, 
+    DietDetailView,
     DietListCreateView,
     WeightHistoryListCreateView,
 )
@@ -14,7 +14,7 @@ urlpatterns = [
         name="diet-list-create",
     ),
 
- path(
+    path(
         "weight/",
         WeightHistoryListCreateView.as_view(),
         name="weight-list-create",
