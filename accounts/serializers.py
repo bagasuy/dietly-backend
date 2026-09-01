@@ -59,11 +59,15 @@ class LoginSerializer(serializers.Serializer):
         return attrs
 
 class UserSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
         fields = (
             "id",
             "username",
             "email",
+            "height",
+            "current_weight",
+            "target_weight",
+            "daily_calorie_goal",
         )
+        read_only_fields = ("id", "username", "email")
