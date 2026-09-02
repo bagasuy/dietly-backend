@@ -27,7 +27,7 @@ buka terminal
 
 cd dietly-backend
 
-2. Buat Virtual Environment
+## 2. Buat Virtual Environment
 
 Linux/macOS:
 
@@ -49,7 +49,7 @@ Jika berhasil, terminal akan menunjukkan:
 
 (.venv)
 
-3. Install Dependencies
+## 3. Install Dependencies
 
 Jalankan:
 
@@ -57,7 +57,7 @@ pip install -r requirements.txt
 
 Tunggu sampai proses selesai.
 
-4. Setup Environment Variables
+## 4. Setup Environment Variables
 
 Buat file .env di root project:
 
@@ -84,7 +84,7 @@ Jangan upload .env ke GitHub.
 
 Gunakan .env.example sebagai referensi jika tersedia.
 
-5. Setup Database
+## 5. Setup Database
 
 Pastikan PostgreSQL sedang berjalan.
 
@@ -100,7 +100,7 @@ python manage.py migrate
 
 Jika berhasil, Django akan membuat tabel yang dibutuhkan oleh aplikasi.
 
-6. Jalankan Backend
+## 6. Jalankan Backend
 
 Pastikan virtual environment masih aktif.
 
