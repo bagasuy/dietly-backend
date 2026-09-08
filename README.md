@@ -1,65 +1,100 @@
 # Dietly Backend
 
-Backend untuk aplikasi Dietly menggunakan Django REST Framework.
+Backend REST API untuk aplikasi Dietly.
 
-## Prerequisites
+Dietly Backend dibangun menggunakan:
 
-Pastikan sudah terinstall:
-
-- Python 3.x
+- Python
+- Django
+- Django REST Framework
 - PostgreSQL
-- Git
-________________________________________________________________________________________
+- Token Authentication
 
-## 1. Clone Repository
+Backend menyediakan API untuk authentication, user profile, diet tracking, weight tracking, dan prediction.
+
+---
+
+## Requirements
+
+Sebelum menjalankan backend, pastikan perangkat sudah memiliki:
+
+- Git
+- Python 3
+- pip
+- PostgreSQL
+- pgAdmin 4 (disarankan untuk database setup)
+- Akses ke repository backend Dietly
+- File database backup `dietly_db_shared.backup`
+
+> PostgreSQL dan backend harus berjalan pada komputer yang sama untuk local development.
+
+---
+
+# 1. Clone Repository
 
 Clone repository backend:
 
-:;bash
-git clone https://github.com/bagasuy/dietly-backend
+``bash
+git clone <URL-REPOSITORY-BACKEND>
 
+Masuk ke folder project:
 
-________________________________________________________________________________________
+cd <NAMA-FOLDER-BACKEND>
 
+Pastikan file manage.py tersedia:
 
-Masuk ke folder:
-buka terminal 
+ls
 
-cd dietly-backend
+Contoh struktur project:
 
-## 2. Buat Virtual Environment
+dietly-backend/
+├── manage.py
+├── requirements.txt
+├── accounts/
+├── diet/
+├── prediction/
+└── ...
+# 2. Create Virtual Environment
 
-Linux/macOS:
+Buat Python virtual environment:
 
-python3 -m venv .venv
+python3 -m venv venv
 
-Aktifkan:
+Virtual environment digunakan agar dependency project terisolasi dari Python system.
 
-source .venv/bin/activate
+Linux / macOS
 
-Windows:
+Aktifkan virtual environment:
 
-python -m venv .venv
+source venv/bin/activate
+Windows
+venv\Scripts\activate
 
-Aktifkan:
+Jika berhasil, terminal biasanya menunjukkan:
 
-.venv\Scripts\activate
+(venv)
 
-Jika berhasil, terminal akan menunjukkan:
+di awal command line.
 
-(.venv)
+# 3. Install Python Dependencies
 
-## 3. Install Dependencies
+Pastikan virtual environment sudah aktif.
 
-Jalankan:
+Kemudian jalankan:
 
 pip install -r requirements.txt
 
-Tunggu sampai proses selesai.
+Perintah ini akan menginstall dependency yang dibutuhkan backend Dietly.
 
-## 4. Setup Environment Variables
+# 4. Configure Environment Variables
 
-Buat file .env di root project:
+Backend menggunakan file .env untuk menyimpan konfigurasi lokal.
+
+File .env tidak disimpan di GitHub karena dapat berisi credential dan secret.
+
+Buat file .env di folder yang sama dengan manage.py.
+
+Contoh:
 
 dietly-backend/
 ├── .env
@@ -67,57 +102,152 @@ dietly-backend/
 ├── requirements.txt
 └── ...
 
-Isi .env sesuai konfigurasi database lokal.
-
-Contoh:
+Isi .env:
 
 SECRET_KEY=your-secret-key
 DEBUG=True
 
-DB_NAME=dietly
+DB_NAME=dietly_db
+DB_USER=postgres
+DB_PASSWORD=your-postgres-password
+DB_HOST=127.0.0.1
+DB_PORT=5432
+Generate SECRET_KEY
+
+Secret key dapat dibuat menggunakan Django:
+
+python3 -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+
+Jika python3 tidak tersedia:
+
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+
+Copy hasil command tersebut ke:
+
+SECRET_KEY=hasil-secret-key
+Database Configuration
+
+Sesuaikan konfigurasi database dengan PostgreSQL lokal.
+
+Contoh:
+
+DB_NAME=dietly_db
 DB_USER=postgres
 DB_PASSWORD=your-postgres-password
 DB_HOST=127.0.0.1
 DB_PORT=5432
 
-Jangan upload .env ke GitHub.
+Keterangan:
 
-Gunakan .env.example sebagai referensi jika tersedia.
+Variable	Keterangan
+SECRET_KEY	Secret key Django, generate sendiri
+DEBUG	True untuk local development
+DB_NAME	Nama database PostgreSQL
+DB_USER	PostgreSQL username
+DB_PASSWORD	Password PostgreSQL lokal
+DB_HOST	Host PostgreSQL lokal
+DB_PORT	Port PostgreSQL
 
-## 5. Setup Database
+DB_PASSWORD dan SECRET_KEY tidak harus sama dengan milik anggota kelompok lain.
 
-Pastikan PostgreSQL sedang berjalan.
+# 5. Setup PostgreSQL Database
 
-Buat database bernama:
+Buka pgAdmin 4.
 
-dietly
+Buat database baru dengan nama:
 
-atau gunakan nama database yang sesuai dengan konfigurasi .env.
+dietly_db
 
-Kemudian jalankan migration:
+Contoh:
+
+PostgreSQL
+└── Databases
+    └── dietly_db
+
+Database ini harus menggunakan PostgreSQL lokal.
+
+# 6. Restore Dietly Database
+
+Untuk mempermudah setup development, gunakan database backup yang diberikan oleh project team:
+
+dietly_db_shared.backup
+
+Jangan gunakan dietly_db_full_backup.backup. File tersebut adalah backup pribadi/master dan tidak digunakan untuk setup anggota kelompok.
+
+Restore menggunakan pgAdmin
+Buka pgAdmin.
+Klik kanan database dietly_db.
+Pilih Restore...
+
+Pada Format, pilih:
+
+Custom or tar
+
+Pada Filename, pilih:
+
+dietly_db_shared.backup
+Jalankan Restore.
+Tunggu sampai proses selesai.
+Refresh database.
+
+Setelah restore, buka:
+
+Schemas
+└── public
+    └── Tables
+
+Seharusnya terdapat tabel seperti:
+
+accounts_user
+diet_dietentry
+diet_weighthistory
+prediction_prediction
+authtoken_token
+django_migrations
+...
+# 7. Apply Django Migrations
+
+Setelah database selesai direstore, jalankan:
+
+python3 manage.py migrate
+
+Jika menggunakan Windows dan python3 tidak tersedia:
 
 python manage.py migrate
 
-Jika berhasil, Django akan membuat tabel yang dibutuhkan oleh aplikasi.
+Django akan memastikan migration yang diperlukan sudah diterapkan.
 
-## 6. Jalankan Backend
-
-Pastikan virtual environment masih aktif.
+# 8. Check Django Configuration
 
 Jalankan:
 
-python manage.py runserver
+python3 manage.py check
 
 Jika berhasil, akan muncul:
 
-Starting development server at http://127.0.0.1:8000/
+System check identified no issues (0 silenced).
 
-Backend sekarang berjalan di:
+Jika muncul error, periksa kembali:
+
+.env
+PostgreSQL
+database name
+PostgreSQL username
+PostgreSQL password
+PostgreSQL host
+PostgreSQL port
+9. Run Backend Server
+
+Jalankan:
+
+python3 manage.py runserver
+
+Jika berhasil, server akan berjalan pada:
 
 http://127.0.0.1:8000/
 
-API Dietly tersedia melalui:
+Backend sekarang sudah berjalan secara lokal.
 
-http://127.0.0.1:8000/api/v1/
+Untuk menghentikan server:
 
-Biarkan terminal backend tetap berjalan.
+CTRL + C
