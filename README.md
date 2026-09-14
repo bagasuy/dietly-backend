@@ -30,7 +30,12 @@ Sebelum menjalankan backend, pastikan perangkat sudah memiliki:
 > PostgreSQL dan backend harus berjalan pada komputer yang sama untuk local development.
 
 ---
+## API Documentation
 
+Interactive API documentation is available through Postman:
+
+https://documenter.getpostman.com/view/57559320/2sBYAyu9K1
+---
 ## 1. Clone Repository
 
 Clone repository backend:
