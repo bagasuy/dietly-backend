@@ -4,12 +4,12 @@ Backend REST API for the Dietly application.
 
 Dietly Backend is built using:
 
-Python
-Django
-Django REST Framework
-PostgreSQL
-Token Authentication
-Django CORS Headers
+- Python
+- Django
+- Django REST Framework
+- PostgreSQL
+- Token Authentication
+- Django CORS Headers
 
 The backend provides APIs for authentication, user profiles, diet tracking, weight tracking, and prediction.
 
@@ -17,13 +17,13 @@ The backend provides APIs for authentication, user profiles, diet tracking, weig
 
 Before running the backend, make sure the following are installed or available:
 
-Git
-Python 3.10+
-pip
-PostgreSQL
-pgAdmin 4
-Access to the Dietly backend repository
-The dietly_db_shared.backup database backup file
+- Git
+- Python 3.10+
+- pip
+- PostgreSQL
+- pgAdmin 4
+- Access to the Dietly backend repository
+- The dietly_db_shared.backup database backup file
 
 PostgreSQL and the backend should run on the same computer for local development.
 
@@ -35,11 +35,11 @@ https://documenter.getpostman.com/view/57559320/2sBYAyu9K1
 
 The documentation includes the available Dietly API endpoints for:
 
-Authentication
-User Profile
-Diet Tracking
-Weight Tracking
-Prediction
+- Authentication
+- User Profile
+- Diet Tracking
+- Weight Tracking
+- Prediction
 
 ## 1. Clone Repository
 
