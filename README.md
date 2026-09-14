@@ -235,14 +235,15 @@ DB_PORT=5432
 
 ```
 
-Variable	Description
-SECRET_KEY	Django secret key. Generate your own value.
-DEBUG	Set to True for local development.
-DB_NAME	PostgreSQL database name.
-DB_USER	PostgreSQL username.
-DB_PASSWORD	Local PostgreSQL password.
-DB_HOST	PostgreSQL host.
-DB_PORT	PostgreSQL port.
+| Variable | Description |
+|---|---|
+| `SECRET_KEY` | Django secret key. Generate your own value. |
+| `DEBUG` | Set to `True` for local development. |
+| `DB_NAME` | PostgreSQL database name. |
+| `DB_USER` | PostgreSQL username. |
+| `DB_PASSWORD` | Local PostgreSQL password. |
+| `DB_HOST` | PostgreSQL host. |
+| `DB_PORT` | PostgreSQL port. |
 
 DB_PASSWORD and SECRET_KEY do not need to be the same for every team member.
 
@@ -282,17 +283,18 @@ dietly_db_shared.backup
 
 ```
 
-Do not use dietly_db_full_backup.backup. This file is the private master backup and must not be distributed to team members.
+Do not use `dietly_db_full_backup.backup`. This file is the private master backup and must not be distributed to team members.
 
-Restore Using pgAdmin
-Open pgAdmin 4.
-Right-click the dietly_db database.
-Select Restore...
-Under Format, select Custom or tar.
-Under Filename, select dietly_db_shared.backup.
-Click Restore.
-Wait until the restore process is complete.
-Refresh the database.
+### Restore Using pgAdmin
+
+1. Open pgAdmin 4.
+2. Right-click the `dietly_db` database.
+3. Select **Restore...**
+4. Under **Format**, select **Custom or tar**.
+5. Under **Filename**, select `dietly_db_shared.backup`.
+6. Click **Restore**.
+7. Wait until the restore process is complete.
+8. Refresh the database.
 
 After the restore process, open:
 
@@ -326,7 +328,7 @@ django_migrations
 
 ```
 
-The dietly_db_shared.backup file should be shared privately with team members and should not be uploaded to GitHub.
+The `dietly_db_shared.backup` file should be shared privately with team members and should not be uploaded to GitHub.
 
 ## 7. Apply Django Migrations
 
@@ -376,13 +378,13 @@ System check identified no issues (0 silenced).
 
 If an error occurs, check the following:
 
-.env
-PostgreSQL
-Database name
-PostgreSQL username
-PostgreSQL password
-PostgreSQL host
-PostgreSQL port
+- `.env`
+- PostgreSQL
+- Database name
+- PostgreSQL username
+- PostgreSQL password
+- PostgreSQL host
+- PostgreSQL port
 
 ## 9. Run Backend Server
 
@@ -432,28 +434,36 @@ CTRL + C
 
 Dietly API endpoints are documented and tested using Postman.
 
-Authentication
-Method	Endpoint
-POST	/api/v1/auth/register/
-POST	/api/v1/auth/login/
-POST	/api/v1/auth/logout/
-GET	/api/v1/auth/me/
-PATCH	/api/v1/auth/me/
-Diet
-Method	Endpoint
-GET	/api/v1/diet/
-POST	/api/v1/diet/
-GET	/api/v1/diet/weight/
-POST	/api/v1/diet/weight/
-GET	/api/v1/diet/<id>/
-PATCH	/api/v1/diet/<id>/
-DELETE	/api/v1/diet/<id>/
-Prediction
-Method	Endpoint
-GET	/api/v1/prediction/
-POST	/api/v1/prediction/
+### Authentication
 
-For detailed request parameters, authentication requirements, request bodies, and responses, see the Postman API Documentation.
+| Method | Endpoint |
+|---|---|
+| POST | `/api/v1/auth/register/` |
+| POST | `/api/v1/auth/login/` |
+| POST | `/api/v1/auth/logout/` |
+| GET | `/api/v1/auth/me/` |
+| PATCH | `/api/v1/auth/me/` |
+
+### Diet
+
+| Method | Endpoint |
+|---|---|
+| GET | `/api/v1/diet/` |
+| POST | `/api/v1/diet/` |
+| GET | `/api/v1/diet/weight/` |
+| POST | `/api/v1/diet/weight/` |
+| GET | `/api/v1/diet/<id>/` |
+| PATCH | `/api/v1/diet/<id>/` |
+| DELETE | `/api/v1/diet/<id>/` |
+
+### Prediction
+
+| Method | Endpoint |
+|---|---|
+| GET | `/api/v1/prediction/` |
+| POST | `/api/v1/prediction/` |
+
+For detailed request parameters, authentication requirements, request bodies, and responses, see the [Postman API Documentation](https://documenter.getpostman.com/view/57559320/2sBYAyu9K1).
 
 ## Project Structure
 
