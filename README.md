@@ -1,421 +1,530 @@
 # Dietly Backend
 
-Backend REST API untuk aplikasi Dietly.
+Backend REST API for the Dietly application.
 
-Dietly Backend dibangun menggunakan:
+Dietly Backend is built using:
 
-- Python
-- Django
-- Django REST Framework
-- PostgreSQL
-- Token Authentication
-- Django CORS Headers
+Python
+Django
+Django REST Framework
+PostgreSQL
+Token Authentication
+Django CORS Headers
 
-Backend menyediakan API untuk authentication, user profile, diet tracking, weight tracking, dan prediction.
-
----
+The backend provides APIs for authentication, user profiles, diet tracking, weight tracking, and prediction.
 
 ## Requirements
 
-Sebelum menjalankan backend, pastikan perangkat sudah memiliki:
+Before running the backend, make sure the following are installed or available:
 
-- Git
-- Python 3.10+
-- pip
-- PostgreSQL
-- pgAdmin 4
-- Akses ke repository backend Dietly
-- File database backup `dietly_db_shared.backup`
+Git
+Python 3.10+
+pip
+PostgreSQL
+pgAdmin 4
+Access to the Dietly backend repository
+The dietly_db_shared.backup database backup file
 
-> PostgreSQL dan backend harus berjalan pada komputer yang sama untuk local development.
+PostgreSQL and the backend should run on the same computer for local development.
 
----
 ## API Documentation
 
 Interactive API documentation is available through Postman:
 
 https://documenter.getpostman.com/view/57559320/2sBYAyu9K1
----
+
+The documentation includes the available Dietly API endpoints for:
+
+Authentication
+User Profile
+Diet Tracking
+Weight Tracking
+Prediction
+
 ## 1. Clone Repository
 
-Clone repository backend:
+Clone the Dietly backend repository:
 
 ```bash
-git clone <URL-REPOSITORY-BACKEND>
+
+git clone https://github.com/bagasuy/dietly-backend.git
+
 ```
 
-Masuk ke folder project:
+Enter the project directory:
 
 ```bash
-cd <NAMA-FOLDER-BACKEND>
+
+cd dietly-backend
+
 ```
 
-Pastikan file `manage.py` tersedia:
+Make sure manage.py is available:
 
 ```bash
+
 ls
+
 ```
 
-Contoh struktur project:
+Example project structure:
 
 ```text
-dietly-backend/
-├── manage.py
-├── requirements.txt
-├── accounts/
-├── diet/
-├── prediction/
-└── ...
-```
 
----
+dietly-backend/
+
+├── manage.py
+
+├── requirements.txt
+
+├── accounts/
+
+├── diet/
+
+├── prediction/
+
+└── ...
+
+```
 
 ## 2. Create Virtual Environment
 
-Buat Python virtual environment:
+Create a Python virtual environment:
 
 ```bash
+
 python3 -m venv .venv
+
 ```
 
-Virtual environment digunakan agar dependency project terisolasi dari Python system.
+The virtual environment keeps project dependencies isolated from the system Python installation.
 
 ### Linux / macOS
 
-Aktifkan virtual environment:
+Activate the virtual environment:
 
 ```bash
+
 source .venv/bin/activate
+
 ```
 
 ### Windows
 
-Aktifkan virtual environment:
+Activate the virtual environment:
 
 ```bash
+
 .venv\Scripts\activate
+
 ```
 
-Jika berhasil, terminal biasanya menunjukkan:
+If the activation is successful, the terminal usually displays:
 
 ```text
+
 (.venv)
+
 ```
 
-di awal command line.
-
----
+at the beginning of the command line.
 
 ## 3. Install Python Dependencies
 
-Pastikan virtual environment sudah aktif.
+Make sure the virtual environment is activated.
 
-Kemudian jalankan:
+Install the required dependencies:
 
 ```bash
+
 pip install -r requirements.txt
+
 ```
 
-Perintah ini akan menginstall dependency yang dibutuhkan backend Dietly.
-
----
+This command installs all Python packages required by the Dietly backend.
 
 ## 4. Configure Environment Variables
 
-Backend menggunakan file `.env` untuk menyimpan konfigurasi lokal.
+The backend uses a .env file to store local configuration.
 
-File `.env` tidak disimpan di GitHub karena dapat berisi credential dan secret.
+The .env file is not stored in GitHub because it may contain credentials and secret values.
 
-Buat file `.env` di folder yang sama dengan `manage.py`.
+Create a .env file in the same directory as manage.py.
 
-Contoh struktur:
+Example structure:
 
 ```text
+
 dietly-backend/
+
 ├── .env
+
 ├── manage.py
+
 ├── requirements.txt
+
 └── ...
+
 ```
 
-Isi `.env`:
+Add the following configuration:
 
 ```env
+
 SECRET_KEY=your-secret-key
+
 DEBUG=True
 
 DB_NAME=dietly_db
+
 DB_USER=postgres
+
 DB_PASSWORD=your-postgres-password
+
 DB_HOST=127.0.0.1
+
 DB_PORT=5432
+
 ```
 
-> Jangan commit file `.env` ke Git.
+Never commit the .env file to Git.
 
 ### Generate SECRET_KEY
 
-Secret key dapat dibuat menggunakan Django:
+Generate a Django secret key using:
 
 ```bash
+
 python3 -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+
 ```
 
-Jika `python3` tidak tersedia:
+If python3 is not available:
 
 ```bash
+
 python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+
 ```
 
-Copy hasil command tersebut ke:
+Copy the generated value into:
 
 ```env
-SECRET_KEY=hasil-secret-key
+
+SECRET_KEY=your-generated-secret-key
+
 ```
 
 ### Database Configuration
 
-Sesuaikan konfigurasi database dengan PostgreSQL lokal.
+Configure the database connection according to your local PostgreSQL installation.
 
-Contoh:
+Example:
 
 ```env
+
 DB_NAME=dietly_db
+
 DB_USER=postgres
+
 DB_PASSWORD=your-postgres-password
+
 DB_HOST=127.0.0.1
+
 DB_PORT=5432
+
 ```
 
-| Variable | Keterangan |
-|---|---|
-| `SECRET_KEY` | Secret key Django, generate sendiri |
-| `DEBUG` | `True` untuk local development |
-| `DB_NAME` | Nama database PostgreSQL |
-| `DB_USER` | PostgreSQL username |
-| `DB_PASSWORD` | Password PostgreSQL lokal |
-| `DB_HOST` | Host PostgreSQL lokal |
-| `DB_PORT` | Port PostgreSQL |
+Variable	Description
+SECRET_KEY	Django secret key. Generate your own value.
+DEBUG	Set to True for local development.
+DB_NAME	PostgreSQL database name.
+DB_USER	PostgreSQL username.
+DB_PASSWORD	Local PostgreSQL password.
+DB_HOST	PostgreSQL host.
+DB_PORT	PostgreSQL port.
 
-> `DB_PASSWORD` dan `SECRET_KEY` tidak harus sama dengan milik anggota kelompok lain.
+DB_PASSWORD and SECRET_KEY do not need to be the same for every team member.
 
----
+## 5. Set Up PostgreSQL Database
 
-## 5. Setup PostgreSQL Database
+Open pgAdmin 4.
 
-Buka pgAdmin 4.
-
-Buat database baru dengan nama:
+Create a new PostgreSQL database named:
 
 ```text
+
 dietly_db
+
 ```
 
-Contoh:
+Example:
 
 ```text
+
 PostgreSQL
+
 └── Databases
-    └── dietly_db
+
+└── dietly_db
+
 ```
 
-Database ini harus menggunakan PostgreSQL lokal.
-
----
+The database should use your local PostgreSQL installation.
 
 ## 6. Restore Dietly Database
 
-Untuk mempermudah setup development, gunakan database backup yang diberikan oleh project team:
+To simplify the development setup, use the database backup provided by the project team:
 
 ```text
+
 dietly_db_shared.backup
+
 ```
 
-> Jangan gunakan `dietly_db_full_backup.backup`. File tersebut adalah backup pribadi/master dan tidak digunakan untuk setup anggota kelompok.
+Do not use dietly_db_full_backup.backup. This file is the private master backup and must not be distributed to team members.
 
-### Restore menggunakan pgAdmin
+Restore Using pgAdmin
+Open pgAdmin 4.
+Right-click the dietly_db database.
+Select Restore...
+Under Format, select Custom or tar.
+Under Filename, select dietly_db_shared.backup.
+Click Restore.
+Wait until the restore process is complete.
+Refresh the database.
 
-1. Buka pgAdmin 4.
-2. Klik kanan database `dietly_db`.
-3. Pilih **Restore...**
-4. Pada **Format**, pilih **Custom or tar**.
-5. Pada **Filename**, pilih `dietly_db_shared.backup`.
-6. Jalankan **Restore**.
-7. Tunggu sampai proses selesai.
-8. Refresh database.
-
-Setelah restore, buka:
+After the restore process, open:
 
 ```text
+
 Schemas
+
 └── public
-    └── Tables
+
+└── Tables
+
 ```
 
-Seharusnya terdapat tabel seperti:
+You should see tables such as:
 
 ```text
+
 accounts_user
+
 diet_dietentry
+
 diet_weighthistory
+
 prediction_prediction
+
 authtoken_token
+
 django_migrations
+
 ...
+
 ```
 
----
+The dietly_db_shared.backup file should be shared privately with team members and should not be uploaded to GitHub.
 
 ## 7. Apply Django Migrations
 
-Setelah database selesai direstore, jalankan:
+After restoring the database, run:
 
 ```bash
+
 python3 manage.py migrate
+
 ```
 
-Jika menggunakan Windows dan `python3` tidak tersedia:
+If python3 is not available on Windows:
 
 ```bash
+
 python manage.py migrate
+
 ```
 
-Django akan memastikan migration yang diperlukan sudah diterapkan.
-
----
+Django will ensure that all required migrations have been applied.
 
 ## 8. Check Django Configuration
 
-Jalankan:
+Run:
 
 ```bash
+
 python3 manage.py check
+
 ```
 
-Jika berhasil, akan muncul:
+If python3 is not available:
+
+```bash
+
+python manage.py check
+
+```
+
+If the configuration is correct, Django should display:
 
 ```text
+
 System check identified no issues (0 silenced).
+
 ```
 
-Jika muncul error, periksa kembali:
+If an error occurs, check the following:
 
-- `.env`
-- PostgreSQL
-- Database name
-- PostgreSQL username
-- PostgreSQL password
-- PostgreSQL host
-- PostgreSQL port
-
----
+.env
+PostgreSQL
+Database name
+PostgreSQL username
+PostgreSQL password
+PostgreSQL host
+PostgreSQL port
 
 ## 9. Run Backend Server
 
-Jalankan:
+Start the Django development server:
 
 ```bash
+
 python3 manage.py runserver
+
 ```
 
-Jika menggunakan Windows dan `python3` tidak tersedia:
+If python3 is not available:
 
 ```bash
+
 python manage.py runserver
+
 ```
 
-Jika berhasil, server akan berjalan pada:
+If successful, the backend will be available at:
 
 ```text
+
 http://127.0.0.1:8000/
+
 ```
 
 API base URL:
 
 ```text
+
 http://127.0.0.1:8000/api/v1/
+
 ```
 
-Backend sekarang sudah berjalan secara lokal.
+The Dietly backend is now running locally.
 
-Untuk menghentikan server:
+To stop the development server:
 
 ```text
+
 CTRL + C
+
 ```
 
----
-
-## API Documentation
+## API Endpoints
 
 Dietly API endpoints are documented and tested using Postman.
 
-### Authentication
+Authentication
+Method	Endpoint
+POST	/api/v1/auth/register/
+POST	/api/v1/auth/login/
+POST	/api/v1/auth/logout/
+GET	/api/v1/auth/me/
+PATCH	/api/v1/auth/me/
+Diet
+Method	Endpoint
+GET	/api/v1/diet/
+POST	/api/v1/diet/
+GET	/api/v1/diet/weight/
+POST	/api/v1/diet/weight/
+GET	/api/v1/diet/<id>/
+PATCH	/api/v1/diet/<id>/
+DELETE	/api/v1/diet/<id>/
+Prediction
+Method	Endpoint
+GET	/api/v1/prediction/
+POST	/api/v1/prediction/
 
-| Method | Endpoint |
-|---|---|
-| POST | `/api/v1/auth/register/` |
-| POST | `/api/v1/auth/login/` |
-| POST | `/api/v1/auth/logout/` |
-| GET | `/api/v1/auth/me/` |
-| PATCH | `/api/v1/auth/me/` |
-
-### Diet
-
-| Method | Endpoint |
-|---|---|
-| GET | `/api/v1/diet/` |
-| POST | `/api/v1/diet/` |
-| GET | `/api/v1/diet/weight/` |
-| POST | `/api/v1/diet/weight/` |
-| GET | `/api/v1/diet/<id>/` |
-| PATCH | `/api/v1/diet/<id>/` |
-| DELETE | `/api/v1/diet/<id>/` |
-
-### Prediction
-
-| Method | Endpoint |
-|---|---|
-| GET | `/api/v1/prediction/` |
-| POST | `/api/v1/prediction/` |
-
----
+For detailed request parameters, authentication requirements, request bodies, and responses, see the Postman API Documentation.
 
 ## Project Structure
 
 ```text
-dietly-backend/
-├── accounts/
-│   ├── models.py
-│   ├── serializers.py
-│   ├── views.py
-│   └── urls.py
-│
-├── diet/
-│   ├── models.py
-│   ├── serializers.py
-│   ├── views.py
-│   └── urls.py
-│
-├── prediction/
-│   ├── models.py
-│   ├── serializers.py
-│   ├── views.py
-│   └── urls.py
-│
-├── api/
-├── config/
-├── manage.py
-├── requirements.txt
-└── README.md
-```
 
----
+dietly-backend/
+
+├── accounts/
+
+│ ├── models.py
+
+│ ├── serializers.py
+
+│ ├── views.py
+
+│ └── urls.py
+
+│
+
+├── diet/
+
+│ ├── models.py
+
+│ ├── serializers.py
+
+│ ├── views.py
+
+│ └── urls.py
+
+│
+
+├── prediction/
+
+│ ├── models.py
+
+│ ├── serializers.py
+
+│ ├── views.py
+
+│ └── urls.py
+
+│
+
+├── api/
+
+├── config/
+
+├── manage.py
+
+├── requirements.txt
+
+└── README.md
+
+```
 
 ## Development Notes
 
-- Authentication uses token-based authentication.
-- User profile information is stored in the custom User model.
-- Diet and weight data are persisted in PostgreSQL.
-- Prediction results are stored and returned through the prediction API.
-- The frontend communicates with this backend through REST APIs.
+Authentication uses token-based authentication.
+User profile information is stored in the custom User model.
+Diet and weight data are persisted in PostgreSQL.
+Prediction results are stored and returned through the prediction API.
+The frontend communicates with this backend through REST APIs.
+The backend and frontend are maintained in separate GitHub repositories.
+The backend is responsible for API services, authentication, database operations, business logic, and prediction functionality.
+
+## Repository
+
+Backend
+
+https://github.com/bagasuy/dietly-backend
+
+Frontend
+
+https://github.com/bagasuy/dietly-frontend
